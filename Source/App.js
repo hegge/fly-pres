@@ -128,7 +128,7 @@ function reqListener () {
 
 var oReq = new XMLHttpRequest();
 oReq.onload = reqListener;
-oReq.open("get", "db.json", true);
+oReq.open("get", "storebjorn.json", true);
 oReq.send();
 
 var i = -1
