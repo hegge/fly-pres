@@ -59,6 +59,24 @@ function set_destination (location_data) {
     }
     return pos
 }
+
+function set_view_destination (location_data) {
+    var pos = {
+        destination : Cesium.Cartesian3.fromDegrees(
+                              location_data.longitude,
+                              location_data.latitude,
+                              0),
+        orientation : {
+        heading : Cesium.Math.toRadians(location_data.heading),
+        pitch : Cesium.Math.toRadians(0),
+        roll : location_data.roll
+        },
+        duration: 3,
+        complete : show_next_image,
+    }
+    return pos
+}
+
 function show_next_image () {
 show_image(locations[i].filename, 2760, 1100)
 }
@@ -125,6 +143,22 @@ document.addEventListener('keydown', function(e) {
             i = 0;
         }
         viewer.camera.flyTo(set_destination(locations[i]));
+        break;
+    case 'V'.charCodeAt(0):
+        remove_image();
+        i++;
+        if (i >= locations.length) {
+            i = 0;
+        }
+        viewer.camera.flyTo(set_view_destination(locations[i]));
+        break;
+    case 'C'.charCodeAt(0):
+        remove_image();
+        i--;
+        if (i == -1) {
+            i = locations.length-1;
+        }
+        viewer.camera.flyTo(set_view_destination(locations[i]));
         break;
     case 'O'.charCodeAt(0):
         viewer.camera.flyTo(set_overview());
