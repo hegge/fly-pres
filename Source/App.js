@@ -13,12 +13,11 @@ var viewer = new Cesium.Viewer('cesiumContainer', {
     })
 });
 
-function find_width()
-{
+function find_width() {
     return [window.innerWidth, window.innerHeight];
 }
 
-function show_image(src, width, height) {
+function show_image(src) {
     var img = document.getElementById("fullscreenImage");
     if (img == null) {
         img = document.createElement("img");
@@ -31,11 +30,12 @@ function show_image(src, width, height) {
 }
 
 function remove_image() {
-	var img = document.getElementById("fullscreenImage");
-        if (img !== null) {
-                img.parentNode.removeChild(img);
-        }
+    var img = document.getElementById("fullscreenImage");
+    if (img !== null) {
+        img.parentNode.removeChild(img);
+    }
 }
+
 function set_destination (location_data) {
     var pos = {
         destination : Cesium.Cartesian3.fromDegrees(
@@ -71,7 +71,16 @@ function set_view_destination (location_data) {
 }
 
 function show_next_image () {
-show_image(locations[i].filename, 2760, 1100)
+    show_image(locations[i].filename)
+}
+
+function zoom_rectangle (rect, zoom_factor) {
+    return new Cesium.Rectangle(
+        rect.west - rect.width * zoom_factor,
+        rect.south - rect.height * zoom_factor,
+        rect.east + rect.width * zoom_factor,
+        rect.north + rect.height * zoom_factor
+    )
 }
 
 function set_overview () {
@@ -79,8 +88,10 @@ function set_overview () {
     for (i=0; i < locations.length; i++){
         point_array.push(Cesium.Cartographic.fromDegrees(locations[i].longitude,locations[i].latitude))
     }
+    var minimal_dest = Cesium.Rectangle.fromCartographicArray(point_array);
+    var dest = zoom_rectangle(minimal_dest, 0.3); // Zoom out overview by 30%.
     var pos = {
-        destination : Cesium.Rectangle.fromCartographicArray(point_array),
+        destination : dest,
         orientation : {
         heading : Cesium.Math.toRadians(0),
         pitch : Cesium.Math.toRadians(-90),
@@ -124,7 +135,7 @@ var i = -1
 document.addEventListener('keydown', function(e) {
     switch(e.keyCode){
     case 'I'.charCodeAt(0):
-       show_image(locations[i].filename, 2760, 1100);
+       show_image(locations[i].filename);
        break;
     case 'M'.charCodeAt(0):
         remove_image();
@@ -154,6 +165,7 @@ document.addEventListener('keydown', function(e) {
         viewer.camera.flyTo(set_view_destination(locations[i]));
         break;
     case 'O'.charCodeAt(0):
+        remove_image();
         viewer.camera.flyTo(set_overview());
         break;
     }
