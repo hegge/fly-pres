@@ -139,6 +139,7 @@ document.addEventListener('keydown', function(e) {
         viewer.camera.flyTo(set_destination(locations[i]));
         break;
     case 'O'.charCodeAt(0):
+        remove_image();
         viewer.camera.flyTo(set_overview());
         break;
     }
