@@ -17,7 +17,7 @@ function find_width() {
     return [window.innerWidth, window.innerHeight];
 }
 
-function show_image(src, width, height) {
+function show_image(src) {
     var img = document.getElementById("fullscreenImage");
     if (img == null) {
         img = document.createElement("img");
@@ -61,7 +61,7 @@ function set_destination (location_data) {
 }
 
 function show_next_image () {
-    show_image(locations[i].filename, 2760, 1100)
+    show_image(locations[i].filename)
 }
 
 function set_overview () {
@@ -114,7 +114,7 @@ var i = -1
 document.addEventListener('keydown', function(e) {
     switch(e.keyCode){
     case 'I'.charCodeAt(0):
-       show_image(locations[i].filename, 2760, 1100);
+       show_image(locations[i].filename);
        break;
     case 'M'.charCodeAt(0):
         remove_image();
