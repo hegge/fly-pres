@@ -1,3 +1,6 @@
+var imgpath = "paths/storebjorn/"
+var jsonfilepath = imgpath+"storebjorn.json"
+
 var viewer = new Cesium.Viewer('cesiumContainer', {
     animation : false,
     baseLayerPicker : false,
@@ -71,7 +74,7 @@ function set_view_destination (location_data) {
 }
 
 function show_next_image () {
-    show_image(locations[i].filename)
+    show_image(imgpath+locations[i].filename)
 }
 
 function zoom_rectangle (rect, zoom_factor) {
@@ -128,14 +131,14 @@ function reqListener () {
 
 var oReq = new XMLHttpRequest();
 oReq.onload = reqListener;
-oReq.open("get", "storebjorn.json", true);
+oReq.open("get", jsonfilepath, true);
 oReq.send();
 
 var i = -1
 document.addEventListener('keydown', function(e) {
     switch(e.keyCode){
     case 'I'.charCodeAt(0):
-       show_image(locations[i].filename);
+       show_image(imgpath+locations[i].filename);
        break;
     case 'M'.charCodeAt(0):
         remove_image();
