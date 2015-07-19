@@ -58,21 +58,21 @@ oReq.onload = reqListener;
 oReq.open("get", "db.json", true);
 oReq.send();
 
-var i = 0
+var i = -1
 document.addEventListener('keydown', function(e) {
     switch(e.keyCode){
     case 'I'.charCodeAt(0):
-       show_image('1.jpg', 2760, 1100);
+       show_image(locations[i].filename, 2760, 1100);
        break;
     case 'M'.charCodeAt(0):
 	remove_image();
 	break;
     case 'N'.charCodeAt(0):
-        viewer.camera.flyTo(set_destination(locations[i]));
         i++;
         if (i >= locations.length) {
             i = 0;
         }
+        viewer.camera.flyTo(set_destination(locations[i]));
         break;
     }
 }, false);
