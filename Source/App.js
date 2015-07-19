@@ -23,7 +23,7 @@ function show_image(src, width, height) {
     if (img == null) {
         img = document.createElement("img");
         img.id = "fullscreenImage";
-        document.getElementById('image_container').appendChild(img);
+        document.body.appendChild(img);
     }
     img.id = "fullscreenImage";
     img.src = src;
