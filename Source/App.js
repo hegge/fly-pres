@@ -13,8 +13,7 @@ var viewer = new Cesium.Viewer('cesiumContainer', {
     })
 });
 
-function find_width()
-{
+function find_width() {
     return [window.innerWidth, window.innerHeight];
 }
 
@@ -38,11 +37,12 @@ function show_image(src, width, height) {
 }
 
 function remove_image() {
-	var img = document.getElementById("fullscreenImage");
-        if (img !== null) {
-                img.parentNode.removeChild(img);
-        }
+    var img = document.getElementById("fullscreenImage");
+    if (img !== null) {
+        img.parentNode.removeChild(img);
+    }
 }
+
 function set_destination (location_data) {
     var pos = {
         destination : Cesium.Cartesian3.fromDegrees(
@@ -59,8 +59,9 @@ function set_destination (location_data) {
     }
     return pos
 }
+
 function show_next_image () {
-show_image(locations[i].filename, 2760, 1100)
+    show_image(locations[i].filename, 2760, 1100)
 }
 
 function set_overview () {
