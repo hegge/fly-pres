@@ -9,7 +9,7 @@ var viewer = new Cesium.Viewer('cesiumContainer', {
     selectionIndicator : false,
     timeline : false,
     terrainProvider : new Cesium.CesiumTerrainProvider({
-	url : '//assets.agi.com/stk-terrain/world'
+    url : '//assets.agi.com/stk-terrain/world'
     })
 });
 
@@ -170,5 +170,82 @@ document.addEventListener('keydown', function(e) {
         viewer.camera.flyTo(set_overview());
         break;
     }
+    var flagName = getFlagForKeyCode(e.keyCode);
+    if (typeof flagName !== 'undefined') {
+        flags[flagName] = true;
+    }
 }, false);
+
+
+// Keybindings for navigation
+
+var flags = {
+    moveForward : false,
+    moveBackward : false,
+    moveUp : false,
+    moveDown : false,
+    moveLeft : false,
+    moveRight : false,
+    twistLeft : false,
+    twistRigt : false
+};
+
+function getFlagForKeyCode(keyCode) {
+    switch (keyCode) {
+    case 37:
+        return 'lookLeft';
+    case 38:
+        return 'lookDown';
+    case 39:
+        return 'lookRight';
+    case 40:
+        return 'lookUp';
+    case 'W'.charCodeAt(0):
+        return 'moveForward';
+    case 'S'.charCodeAt(0):
+        return 'moveBackward';
+    case 'Q'.charCodeAt(0):
+        return 'twistLeft';
+    case 'E'.charCodeAt(0):
+        return 'twistRight';
+    case 'D'.charCodeAt(0):
+        return 'moveRight';
+    case 'A'.charCodeAt(0):
+        return 'moveLeft';
+    case 'Z'.charCodeAt(0):
+        return 'moveUp';
+    case 'X'.charCodeAt(0):
+        return 'moveDown';
+    default:
+        return undefined;
+    }
+}
+
+document.addEventListener('keyup', function(e) {
+    var flagName = getFlagForKeyCode(e.keyCode);
+    if (typeof flagName !== 'undefined') {
+        flags[flagName] = false;
+    }
+}, false);
+
+viewer.clock.onTick.addEventListener(function(clock) {
+    var camera = viewer.camera;
+    // Change movement speed based on the distance of the camera to the surface of the ellipsoid.
+    var ellipsoid = viewer.scene.globe.ellipsoid;
+    var cameraHeight = ellipsoid.cartesianToCartographic(camera.position).height;
+    var moveRate = cameraHeight / 100.0;
+    var lookRate = 0.01;
+    if (flags.twistLeft) {camera.twistLeft(lookRate);}
+    if (flags.twistRight) {camera.twistRight(lookRate);}
+    if (flags.lookLeft) {camera.lookLeft(lookRate);}
+    if (flags.lookUp) {camera.lookUp(lookRate);}
+    if (flags.lookRight) {camera.lookRight(lookRate);}
+    if (flags.lookDown) {camera.lookDown(lookRate);}
+    if (flags.moveForward) {camera.moveForward(moveRate);}
+    if (flags.moveBackward) {camera.moveBackward(moveRate);}
+    if (flags.moveUp) {camera.moveUp(moveRate);}
+    if (flags.moveDown) {camera.moveDown(moveRate);}
+    if (flags.moveLeft) {camera.moveLeft(moveRate);}
+    if (flags.moveRight) {camera.moveRight(moveRate);}
+});
 
