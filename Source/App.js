@@ -17,15 +17,14 @@ function show_image(src, width, height) {
     var img = document.createElement("img");
     img.id = "fullscreenImage";
     img.src = src;
-    img.width = width;
-    img.height = height;
+    img.height = 800;
     img.alt = "image";
 
-    img.style.position = "absolute";
-    img.style.left = "0px";
-    img.style.top = "0px";
-
-    document.body.appendChild(img);
+    img.style.position = "relative";
+    //img.style.left = "50px";
+    img.style.top = "20px";
+    img.style.align = "center";
+    document.getElementById('image_container').appendChild(img);
 }
 
 function remove_image() {
@@ -38,19 +37,61 @@ function set_destination (location_data) {
     var pos = {
         destination : Cesium.Cartesian3.fromDegrees(
                               location_data.longitude,
-                              location_data.latitude,
-                              location_data.height),
+                              location_data.latitude-0.015,
+                              5000),
         orientation : {
-        heading : Cesium.Math.toRadians(location_data.heading),
-        pitch : location_data.pitch,
+        heading : Cesium.Math.toRadians(0),
+        pitch : Cesium.Math.toRadians(-45),
         roll : location_data.roll
-        }
+        },
+        duration: 3,
+        complete : show_next_image,
+    }
+    return pos
+}
+function show_next_image () {
+show_image(locations[i].filename, 2760, 1100)
+}
+
+function set_overview () {
+    var point_array = [];
+    for (i=0; i < locations.length; i++){
+        point_array.push(Cesium.Cartographic.fromDegrees(locations[i].longitude,locations[i].latitude))
+    }
+    var pos = {
+        destination : Cesium.Rectangle.fromCartographicArray(point_array),
+        orientation : {
+        heading : Cesium.Math.toRadians(0),
+        pitch : Cesium.Math.toRadians(-90),
+        roll : 0,
+        },
+        duration: 3,
     }
     return pos
 }
 
+
+viewer.camera.frustum.fov = 2
+
+function add_markers() {
+for (i=0; i < locations.length; i++){
+    var entity = viewer.entities.add({
+        position : Cesium.Cartesian3.fromDegrees(locations[i].longitude, locations[i].latitude),
+        label : {
+            text : '',
+            verticalOrigin : Cesium.VerticalOrigin.TOP
+        },
+        billboard : {
+            image : 'point.png',
+            verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+        }
+    });
+}
+}
+
 function reqListener () {
     locations = JSON.parse(this.responseText);
+    add_markers()
 }
 
 var oReq = new XMLHttpRequest();
@@ -65,14 +106,19 @@ document.addEventListener('keydown', function(e) {
        show_image(locations[i].filename, 2760, 1100);
        break;
     case 'M'.charCodeAt(0):
-	remove_image();
-	break;
+        remove_image();
+        break;
     case 'N'.charCodeAt(0):
+        remove_image();
         i++;
         if (i >= locations.length) {
             i = 0;
         }
         viewer.camera.flyTo(set_destination(locations[i]));
         break;
+    case 'O'.charCodeAt(0):
+        viewer.camera.flyTo(set_overview());
+        break;
     }
 }, false);
+
