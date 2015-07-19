@@ -104,6 +104,7 @@ function set_overview () {
 
 
 viewer.camera.frustum.fov = 2
+viewer.scene.screenSpaceCameraController.minimumZoomDistance = 10
 
 function add_markers() {
 for (var i=0; i < locations.length; i++){
