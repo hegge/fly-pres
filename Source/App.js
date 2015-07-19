@@ -64,13 +64,24 @@ function show_next_image () {
     show_image(locations[i].filename)
 }
 
+function zoom_rectangle (rect, zoom_factor) {
+    return new Cesium.Rectangle(
+        rect.west - rect.width * zoom_factor,
+        rect.south - rect.height * zoom_factor,
+        rect.east + rect.width * zoom_factor,
+        rect.north + rect.height * zoom_factor
+    )
+}
+
 function set_overview () {
     var point_array = [];
     for (i=0; i < locations.length; i++){
         point_array.push(Cesium.Cartographic.fromDegrees(locations[i].longitude,locations[i].latitude))
     }
+    var minimal_dest = Cesium.Rectangle.fromCartographicArray(point_array);
+    var dest = zoom_rectangle(minimal_dest, 0.3); // Zoom out overview by 30%.
     var pos = {
-        destination : Cesium.Rectangle.fromCartographicArray(point_array),
+        destination : dest,
         orientation : {
         heading : Cesium.Math.toRadians(0),
         pitch : Cesium.Math.toRadians(-90),
