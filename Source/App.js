@@ -8,10 +8,22 @@ var viewer = new Cesium.Viewer('cesiumContainer', {
     sceneModePicker : false,
     selectionIndicator : false,
     timeline : false,
+    imageryProvider : new Cesium.BingMapsImageryProvider({
+	    url : '//dev.virtualearth.net'
+    }),
     terrainProvider : new Cesium.CesiumTerrainProvider({
 	url : '//assets.agi.com/stk-terrain/world'
     })
 });
+
+
+var layers = viewer.scene.imageryLayers;
+var osm = layers.addImageryProvider(new Cesium.OpenStreetMapImageryProvider({
+     url : '//a.tile.openstreetmap.org/'
+}));
+
+osm.alpha = 0.3; // 0.0 is transparent.  1.0 is opaque.
+osm.brightness = 1.0; // > 1.0 increases brightness.  < 1.0 decreases.
 
 function show_image(src, width, height) {
     var img = document.createElement("img");
