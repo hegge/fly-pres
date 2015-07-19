@@ -28,13 +28,6 @@ function show_image(src, width, height) {
     img.id = "fullscreenImage";
     img.src = src;
     img.alt = "image";
-
-    var screen_size = find_width();
-    img.height = screen_size[1] * 0.9;
-
-    img.style.position = "relative";
-    img.style.top = "20px";
-    img.style.align = "center";
 }
 
 function remove_image() {
