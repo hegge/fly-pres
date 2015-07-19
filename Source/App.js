@@ -71,7 +71,7 @@ function set_view_destination (location_data) {
 }
 
 function show_next_image () {
-    show_image(locations[i].filename)
+    show_image(locations[loc].filename)
 }
 
 function zoom_rectangle (rect, zoom_factor) {
@@ -85,7 +85,7 @@ function zoom_rectangle (rect, zoom_factor) {
 
 function set_overview () {
     var point_array = [];
-    for (i=0; i < locations.length; i++){
+    for (var i=0; i < locations.length; i++){
         point_array.push(Cesium.Cartographic.fromDegrees(locations[i].longitude,locations[i].latitude))
     }
     var minimal_dest = Cesium.Rectangle.fromCartographicArray(point_array);
@@ -106,7 +106,7 @@ function set_overview () {
 viewer.camera.frustum.fov = 2
 
 function add_markers() {
-for (i=0; i < locations.length; i++){
+for (var i=0; i < locations.length; i++){
     var entity = viewer.entities.add({
         position : Cesium.Cartesian3.fromDegrees(locations[i].longitude, locations[i].latitude),
         label : {
@@ -131,38 +131,38 @@ oReq.onload = reqListener;
 oReq.open("get", "storebjorn.json", true);
 oReq.send();
 
-var i = -1
+loc = -1
 document.addEventListener('keydown', function(e) {
     switch(e.keyCode){
     case 'I'.charCodeAt(0):
-       show_image(locations[i].filename);
+       show_image(locations[loc].filename);
        break;
     case 'M'.charCodeAt(0):
         remove_image();
         break;
     case 'N'.charCodeAt(0):
         remove_image();
-        i++;
-        if (i >= locations.length) {
-            i = 0;
+        loc++;
+        if (loc >= locations.length) {
+            loc = 0;
         }
-        viewer.camera.flyTo(set_destination(locations[i]));
+        viewer.camera.flyTo(set_destination(locations[loc]));
         break;
     case 'V'.charCodeAt(0):
         remove_image();
-        i++;
-        if (i >= locations.length) {
-            i = 0;
+        loc++;
+        if (loc >= locations.length) {
+            loc = 0;
         }
-        viewer.camera.flyTo(set_view_destination(locations[i]));
+        viewer.camera.flyTo(set_view_destination(locations[loc]));
         break;
     case 'C'.charCodeAt(0):
         remove_image();
-        i--;
-        if (i == -1) {
-            i = locations.length-1;
+        loc--;
+        if (loc == -1) {
+            loc = locations.length-1;
         }
-        viewer.camera.flyTo(set_view_destination(locations[i]));
+        viewer.camera.flyTo(set_view_destination(locations[loc]));
         break;
     case 'O'.charCodeAt(0):
         remove_image();
