@@ -58,7 +58,7 @@ function set_view_destination (location_data) {
         destination : Cesium.Cartesian3.fromDegrees(
                               location_data.longitude,
                               location_data.latitude,
-                              0),
+                              location_data.height),
         orientation : {
         heading : Cesium.Math.toRadians(location_data.heading),
         pitch : Cesium.Math.toRadians(0),
