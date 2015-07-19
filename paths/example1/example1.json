@@ -1,46 +1,46 @@
 [
-  {
-    "filename":"01.JPG",
-    "latitude":59.893693,
-    "longitude":10.778752,
-    "height":0,
-    "heading":0,
-    "pitch":0,
-    "roll":0,
-    "fov_horizontal":1.57,
-    "fov_vertical":0.785
-  },
-  {
-    "filename":"02.JPG",
-    "latitude":59.968241,
-    "longitude":10.789788,
-    "height":0,
-    "heading":315,
-    "pitch":0,
-    "roll":0,
-    "fov_horizontal":1.57,
-    "fov_vertical":0.785
-  },
-  {
-    "filename":"03.JPG",
-    "latitude":61.170962,
-    "longitude":8.391132,
-    "height":0,
-    "heading":45,
-    "pitch":0,
-    "roll":0,
-    "fov_horizontal":1.57,
-    "fov_vertical":0.785
-  },
-  {
-    "filename":"04.JPG",
-    "latitude":61.202269,
-    "longitude":8.371959,
-    "height":0,
-    "heading":180,
-    "pitch":0,
-    "roll":0,
-    "fov_horizontal":1.57,
-    "fov_vertical":0.785
-  }
+    {
+        "roll": 0, 
+        "fov_horizontal": 1.57, 
+        "longitude": 0.18812471165592387, 
+        "height": 0, 
+        "fov_vertical": 0.785, 
+        "pitch": 0, 
+        "latitude": 1.04534214402868, 
+        "filename": "01.JPG", 
+        "heading": 0.0
+    }, 
+    {
+        "roll": 0, 
+        "fov_horizontal": 1.57, 
+        "longitude": 0.18831732619217392, 
+        "height": 0, 
+        "fov_vertical": 0.785, 
+        "pitch": 0, 
+        "latitude": 1.0466432520794569, 
+        "filename": "02.JPG", 
+        "heading": 5.497787143782138
+    }, 
+    {
+        "roll": 0, 
+        "fov_horizontal": 1.57, 
+        "longitude": 0.14645288136945683, 
+        "height": 0, 
+        "fov_vertical": 0.785, 
+        "pitch": 0, 
+        "latitude": 1.0676346935123355, 
+        "filename": "03.JPG", 
+        "heading": 0.7853981633974483
+    }, 
+    {
+        "roll": 0, 
+        "fov_horizontal": 1.57, 
+        "longitude": 0.14611824939197196, 
+        "height": 0, 
+        "fov_vertical": 0.785, 
+        "pitch": 0, 
+        "latitude": 1.0681811037412574, 
+        "filename": "04.JPG", 
+        "heading": 3.141592653589793
+    }
 ]
