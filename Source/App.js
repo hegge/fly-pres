@@ -13,18 +13,28 @@ var viewer = new Cesium.Viewer('cesiumContainer', {
     })
 });
 
+function find_width()
+{
+    return [window.innerWidth, window.innerHeight];
+}
+
 function show_image(src, width, height) {
-    var img = document.createElement("img");
+    var img = document.getElementById("fullscreenImage");
+    if (img == null) {
+        img = document.createElement("img");
+        img.id = "fullscreenImage";
+        document.getElementById('image_container').appendChild(img);
+    }
     img.id = "fullscreenImage";
     img.src = src;
-    img.height = 800;
     img.alt = "image";
 
+    var screen_size = find_width();
+    img.height = screen_size[1] * 0.9;
+
     img.style.position = "relative";
-    //img.style.left = "50px";
     img.style.top = "20px";
     img.style.align = "center";
-    document.getElementById('image_container').appendChild(img);
 }
 
 function remove_image() {
