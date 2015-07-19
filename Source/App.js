@@ -1,3 +1,6 @@
+var imgpath = "paths/storebjorn/"
+var jsonfilepath = imgpath+"storebjorn.json"
+
 var viewer = new Cesium.Viewer('cesiumContainer', {
     animation : false,
     baseLayerPicker : false,
@@ -37,10 +40,12 @@ function remove_image() {
 }
 
 function set_destination (location_data) {
+    var lat_shift = Cesium.Math.toRadians(0.015)
+    var const_height = 5000 // meters
     var pos = {
-        destination : Cesium.Cartesian3.fromDegrees(
+        destination : Cesium.Cartesian3.fromRadians(
                               location_data.longitude,
-                              location_data.latitude-0.015,
+                              location_data.latitude-lat_shift,
                               5000),
         orientation : {
         heading : Cesium.Math.toRadians(0),
@@ -55,12 +60,12 @@ function set_destination (location_data) {
 
 function set_view_destination (location_data) {
     var pos = {
-        destination : Cesium.Cartesian3.fromDegrees(
+        destination : Cesium.Cartesian3.fromRadians(
                               location_data.longitude,
                               location_data.latitude,
                               location_data.height),
         orientation : {
-        heading : Cesium.Math.toRadians(location_data.heading),
+        heading : location_data.heading,
         pitch : location_data.pitch,
         roll : location_data.roll
         },
@@ -71,7 +76,7 @@ function set_view_destination (location_data) {
 }
 
 function show_next_image () {
-    show_image(locations[loc].filename)
+    show_image(imgpath+locations[loc].filename)
 }
 
 function zoom_rectangle (rect, zoom_factor) {
@@ -86,7 +91,7 @@ function zoom_rectangle (rect, zoom_factor) {
 function set_overview () {
     var point_array = [];
     for (var i=0; i < locations.length; i++){
-        point_array.push(Cesium.Cartographic.fromDegrees(locations[i].longitude,locations[i].latitude))
+        point_array.push(Cesium.Cartographic.fromRadians(locations[i].longitude,locations[i].latitude))
     }
     var minimal_dest = Cesium.Rectangle.fromCartographicArray(point_array);
     var dest = zoom_rectangle(minimal_dest, 0.3); // Zoom out overview by 30%.
@@ -109,7 +114,7 @@ viewer.scene.screenSpaceCameraController.minimumZoomDistance = 10
 function add_markers() {
 for (var i=0; i < locations.length; i++){
     var entity = viewer.entities.add({
-        position : Cesium.Cartesian3.fromDegrees(locations[i].longitude, locations[i].latitude),
+        position : Cesium.Cartesian3.fromRadians(locations[i].longitude, locations[i].latitude),
         label : {
             text : '',
             verticalOrigin : Cesium.VerticalOrigin.TOP
@@ -129,14 +134,14 @@ function reqListener () {
 
 var oReq = new XMLHttpRequest();
 oReq.onload = reqListener;
-oReq.open("get", "storebjorn.json", true);
+oReq.open("get", jsonfilepath, true);
 oReq.send();
 
 loc = -1
 document.addEventListener('keydown', function(e) {
     switch(e.keyCode){
     case 'I'.charCodeAt(0):
-       show_image(locations[loc].filename);
+       show_image(imgpath+locations[loc].filename);
        break;
     case 'M'.charCodeAt(0):
         remove_image();
